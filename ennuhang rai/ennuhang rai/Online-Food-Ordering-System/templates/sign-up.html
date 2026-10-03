@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign Up — Hungry Vhansa</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+  :root{--p1:#ff7e5f;--p2:#feb47b;--dark:#2c2735;--soft:#fff9f5;--muted:#6b6477;--line:#f0e8e0}
+  body{min-height:100vh;background:var(--soft);color:var(--dark);overflow-x:hidden}
+  .wrap{display:grid;grid-template-columns:1fr 1fr;min-height:100vh}
+
+  .visual{
+    position:relative;overflow:hidden;color:#fff;
+    background:linear-gradient(135deg,var(--p1) 0%,var(--p2) 100%);
+    display:flex;flex-direction:column;justify-content:space-between;padding:48px;
+  }
+  .visual::before{content:'';position:absolute;width:520px;height:520px;border-radius:50%;background:rgba(255,255,255,.1);top:-180px;right:-180px}
+  .visual::after{content:'';position:absolute;width:380px;height:380px;border-radius:50%;background:rgba(255,255,255,.07);bottom:-140px;left:-100px}
+
+  .brand{position:relative;z-index:2;font-weight:800;font-size:1.4rem}
+  .brand a{color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px}
+
+  .visual-center{position:relative;z-index:2;text-align:center}
+  .big-emoji{font-size:10rem;display:inline-block;filter:drop-shadow(0 18px 36px rgba(0,0,0,.22));animation:bounce 3s ease-in-out infinite}
+  @keyframes bounce{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-22px) rotate(4deg)}}
+  .visual-center h2{font-size:2.2rem;font-weight:800;margin-top:18px;letter-spacing:-1px;line-height:1.2}
+  .visual-center p{margin-top:12px;font-size:1rem;opacity:.95;max-width:360px;margin-left:auto;margin-right:auto}
+
+  .perks{position:relative;z-index:2;display:flex;flex-direction:column;gap:10px;font-size:.92rem}
+  .perks div{display:flex;align-items:center;gap:10px;font-weight:500}
+  .perks .ic{width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:.9rem}
+
+  .form-side{display:flex;align-items:center;justify-content:center;padding:40px;background:var(--soft)}
+  .form-card{width:100%;max-width:420px}
+  .form-card h1{font-size:2.1rem;font-weight:800;letter-spacing:-1px;margin-bottom:6px}
+  .form-card .sub{color:var(--muted);margin-bottom:28px}
+
+  .grad-text{background:linear-gradient(135deg,var(--p1),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+  .flashes{list-style:none;background:#fff0e8;border-left:4px solid var(--p1);padding:12px 16px;border-radius:10px;margin-bottom:18px;color:#c44a26;font-size:.92rem;font-weight:500}
+
+  .field{margin-bottom:16px;position:relative}
+  .field label{display:block;font-size:.82rem;font-weight:600;color:#555;margin-bottom:6px}
+  .field .input-wrap{position:relative}
+  .field .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:1.05rem;opacity:.6}
+  .field input{width:100%;padding:13px 16px 13px 42px;border:1.5px solid var(--line);border-radius:11px;font-size:.98rem;background:#fff;transition:all .25s ease;font-family:inherit}
+  .field input:focus{outline:none;border-color:var(--p1);box-shadow:0 0 0 4px rgba(255,126,95,.12)}
+  .hint{font-size:.78rem;color:var(--muted);margin-top:6px}
+
+  .submit{
+    width:100%;padding:14px;border:none;border-radius:11px;margin-top:6px;
+    background:linear-gradient(135deg,var(--p1),var(--p2));
+    color:#fff;font-size:1.02rem;font-weight:700;cursor:pointer;
+    box-shadow:0 8px 22px rgba(255,126,95,.32);transition:all .3s ease;font-family:inherit;
+  }
+  .submit:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(255,126,95,.45)}
+
+  .signin-link{text-align:center;margin-top:22px;color:var(--muted)}
+  .signin-link a{font-weight:700;text-decoration:none}
+
+  .back-home{display:inline-flex;align-items:center;gap:6px;color:var(--muted);text-decoration:none;font-size:.88rem;margin-bottom:22px;font-weight:500}
+  .back-home:hover{color:var(--p1)}
+
+  .terms{font-size:.78rem;color:var(--muted);text-align:center;margin-top:16px;line-height:1.6}
+  .terms a{color:var(--p1);text-decoration:none}
+
+  @media(max-width:900px){
+    .wrap{grid-template-columns:1fr}
+    .visual{display:none}
+    .form-side{padding:30px 20px;min-height:100vh}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="visual">
+    <div class="brand"><a href="{{ url_for('home') }}">🍱 Hungry Vhansa</a></div>
+    <div class="visual-center">
+      <span class="big-emoji">🍜</span>
+      <h2>Join the<br>Hungry Vhansa family.</h2>
+      <p>Create your free account in seconds and start ordering your favorite meals from Koteshwor's tastiest kitchen.</p>
+    </div>
+    <div class="perks">
+      <div><span class="ic">⚡</span> Order in seconds</div>
+      <div><span class="ic">🚚</span> Hot, fast delivery</div>
+      <div><span class="ic">💝</span> Member-only offers</div>
+    </div>
+  </div>
+
+  <div class="form-side">
+    <div class="form-card">
+      <a href="{{ url_for('home') }}" class="back-home">← Back to home</a>
+      <h1>Create your <span class="grad-text">account</span></h1>
+      <p class="sub">It only takes a few seconds.</p>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul class="flashes">{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
+        {% endif %}
+      {% endwith %}
+
+      <form action="{{ url_for('register') }}" method="post">
+        <div class="field">
+          <label for="name">Full Name</label>
+          <div class="input-wrap">
+            <span class="icon">👤</span>
+            <input type="text" id="name" name="name" placeholder="e.g. Ennuhang Rai" autocomplete="name" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <div class="input-wrap">
+            <span class="icon">✉️</span>
+            <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <span class="icon">🔒</span>
+            <input type="password" id="password" name="password" placeholder="At least 6 characters" autocomplete="new-password" minlength="6" required>
+          </div>
+          <div class="hint">Use 6 or more characters with a mix of letters & numbers.</div>
+        </div>
+
+        <button type="submit" class="submit">Create Account →</button>
+      </form>
+
+      <div class="terms">
+        By signing up, you agree to our <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.
+      </div>
+
+      <div class="signin-link">
+        Already have an account? <a href="{{ url_for('index') }}" class="grad-text">Sign in</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

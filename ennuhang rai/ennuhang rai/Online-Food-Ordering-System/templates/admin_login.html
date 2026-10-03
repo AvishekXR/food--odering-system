@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Login — Hungry Vhansa</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+  :root{--p1:#ff7e5f;--p2:#feb47b;--dark:#2c2735;--soft:#fff9f5;--muted:#6b6477;--line:#f0e8e0}
+  body{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:
+      radial-gradient(circle at 20% 30%,rgba(255,126,95,.18) 0%,transparent 55%),
+      radial-gradient(circle at 80% 70%,rgba(254,180,123,.20) 0%,transparent 55%),
+      var(--soft);
+    color:var(--dark);padding:20px;
+  }
+
+  .card{
+    width:100%;max-width:430px;background:#fff;
+    border:1px solid var(--line);border-radius:22px;padding:42px 36px;
+    box-shadow:0 20px 50px rgba(255,126,95,.12);
+  }
+
+  .badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:7px 14px;border-radius:50px;
+    background:linear-gradient(135deg,var(--p1),var(--p2));
+    color:#fff;font-size:.76rem;font-weight:700;letter-spacing:.6px;text-transform:uppercase;
+    margin-bottom:22px;
+  }
+
+  h1{font-size:2rem;font-weight:800;letter-spacing:-1px;margin-bottom:8px}
+  .grad-text{background:linear-gradient(135deg,var(--p1),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .sub{color:var(--muted);margin-bottom:28px;font-size:.95rem}
+
+  .flashes{list-style:none;background:#fff0e8;border-left:4px solid var(--p1);padding:12px 16px;border-radius:10px;margin-bottom:18px;color:#c44a26;font-size:.92rem;font-weight:500}
+
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:.78rem;font-weight:600;color:#666;margin-bottom:6px;letter-spacing:.4px;text-transform:uppercase}
+  .field input{
+    width:100%;padding:13px 16px;border:1.5px solid var(--line);
+    border-radius:11px;font-size:.98rem;background:var(--soft);color:var(--dark);
+    transition:all .25s ease;font-family:inherit;
+  }
+  .field input::placeholder{color:#bbb}
+  .field input:focus{outline:none;border-color:var(--p1);box-shadow:0 0 0 4px rgba(255,126,95,.12);background:#fff}
+
+  .submit{
+    width:100%;padding:14px;border:none;border-radius:11px;margin-top:6px;
+    background:linear-gradient(135deg,var(--p1),var(--p2));
+    color:#fff;font-size:1.02rem;font-weight:700;cursor:pointer;
+    box-shadow:0 10px 24px rgba(255,126,95,.32);transition:all .3s ease;font-family:inherit;
+  }
+  .submit:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(255,126,95,.45)}
+
+  .links{margin-top:22px;display:flex;justify-content:space-between;font-size:.88rem}
+  .links a{color:var(--muted);text-decoration:none;transition:color .2s;font-weight:500}
+  .links a:hover{color:var(--p1)}
+
+  .hint{
+    margin-top:20px;padding:12px 16px;border-radius:10px;
+    background:#fff7ee;border:1px dashed #f1c599;
+    font-size:.82rem;color:#7a5a35;
+  }
+  .hint code{background:#fff;padding:2px 8px;border-radius:6px;color:var(--p1);font-family:monospace;border:1px solid var(--line)}
+
+  .info{text-align:center;margin-top:18px;font-size:.8rem;color:var(--muted)}
+  .info span{margin:0 8px}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="badge">🛡️ Admin Portal</div>
+  <h1>Welcome back, <span class="grad-text">Admin</span></h1>
+  <p class="sub">Restricted access. Authorized personnel only.</p>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="flashes">{% for message in messages %}<li>{{ message }}</li>{% endfor %}</ul>
+    {% endif %}
+  {% endwith %}
+
+  <form action="{{ url_for('admin_login') }}" method="post">
+    <div class="field">
+      <label>Admin Account</label>
+      <input type="text" name="Account" placeholder="admin" autocomplete="off" required>
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" name="password" placeholder="••••••••" autocomplete="off" required>
+    </div>
+    <button type="submit" class="submit">Enter Dashboard →</button>
+  </form>
+
+  <div class="links">
+    <a href="{{ url_for('home') }}">← Back to home</a>
+    <a href="{{ url_for('index') }}">User login</a>
+  </div>
+
+  <div class="hint">
+    🔑 Default credentials: <code>admin</code> / <code>admin123</code>
+  </div>
+
+  <div class="info">
+    🏠 Hungry Vhansa <span>·</span> 📍 Koteshwor-32 <span>·</span> 📞 9745614910
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Order — Hungry Vhansa</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+  :root{--p1:#ff7e5f;--p2:#feb47b;--dark:#2c2735;--soft:#fff9f5;--muted:#6b6477;--line:#f0e8e0;--ok:#0a8a3f;--err:#c5344d}
+  body{background:#faf6f1;color:var(--dark);min-height:100vh;line-height:1.5}
+
+  .grad-text{background:linear-gradient(135deg,var(--p1),var(--p2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .grad-bg{background:linear-gradient(135deg,var(--p1),var(--p2))}
+
+  /* TOP */
+  header{
+    position:sticky;top:0;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);
+    padding:16px 5%;display:flex;justify-content:space-between;align-items:center;
+    border-bottom:1px solid var(--line);z-index:100;
+  }
+  .brand{font-weight:800;font-size:1.3rem;display:flex;align-items:center;gap:8px}
+  .brand a{color:var(--dark);text-decoration:none;display:flex;align-items:center;gap:8px}
+  .top-right{display:flex;align-items:center;gap:14px}
+  .wallet{
+    background:#fff7ee;border:1px solid #ffe2c8;color:#8a4f1f;
+    padding:8px 14px;border-radius:50px;font-size:.88rem;font-weight:600;
+    display:flex;align-items:center;gap:6px;
+  }
+  .user-chip{display:flex;align-items:center;gap:10px}
+  .avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.95rem}
+  .name{font-weight:600;font-size:.92rem}
+  .logout-btn{
+    padding:8px 16px;border-radius:50px;border:1px solid var(--line);background:#fff;
+    color:var(--dark);font-weight:600;cursor:pointer;font-family:inherit;font-size:.85rem;
+    transition:all .2s;
+  }
+  .logout-btn:hover{background:var(--dark);color:#fff;border-color:var(--dark)}
+
+  /* HERO BANNER */
+  .banner{
+    margin:24px 5% 0;border-radius:20px;padding:30px 36px;color:#fff;
+    background:linear-gradient(135deg,var(--p1),var(--p2));
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;
+    box-shadow:0 12px 30px rgba(255,126,95,.25);
+  }
+  .banner h1{font-size:1.7rem;font-weight:800;letter-spacing:-.5px}
+  .banner p{opacity:.9;margin-top:4px;font-size:.95rem}
+  .banner-info{display:flex;gap:18px;font-size:.88rem;font-weight:500;opacity:.95}
+  .banner-info div{display:flex;align-items:center;gap:6px}
+
+  /* LAYOUT */
+  .layout{display:grid;grid-template-columns:1fr 380px;gap:24px;padding:24px 5% 60px;align-items:start}
+
+  /* MENU */
+  .menu-section{background:#fff;border-radius:18px;padding:22px;border:1px solid var(--line)}
+  .menu-section h2{font-size:1.2rem;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+  .menu-section h2 .pill{font-size:.7rem;padding:4px 10px;border-radius:50px;background:rgba(255,126,95,.12);color:var(--p1);font-weight:700}
+
+  .item{
+    display:grid;grid-template-columns:90px 1fr auto;gap:16px;padding:16px 0;
+    border-bottom:1px solid var(--line);align-items:center;
+  }
+  .item:last-child{border-bottom:none}
+  .item-img{width:90px;height:90px;border-radius:14px;background:linear-gradient(135deg,#fff3ea,#ffe5d3);overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .item-img img{width:100%;height:100%;object-fit:cover}
+  .item-img .ph{font-size:2.2rem}
+
+  .item-info h3{font-size:1.05rem;font-weight:700;margin-bottom:4px}
+  .item-info .meta{font-size:.82rem;color:var(--muted);margin-bottom:6px}
+  .item-info .price{font-weight:800;color:var(--p1);font-size:1.05rem}
+  .item-info .stock{font-size:.74rem;color:var(--muted);margin-left:8px;font-weight:500}
+  .item-info .stock.out{color:var(--err);font-weight:700}
+
+  .stepper{display:flex;align-items:center;gap:10px;background:var(--soft);padding:6px;border-radius:50px;border:1px solid var(--line)}
+  .stepper button{
+    width:34px;height:34px;border-radius:50%;border:none;cursor:pointer;
+    background:#fff;color:var(--p1);font-size:1.1rem;font-weight:700;font-family:inherit;
+    box-shadow:0 2px 6px rgba(0,0,0,.06);transition:all .2s;
+  }
+  .stepper button:hover:not(:disabled){background:var(--p1);color:#fff}
+  .stepper button:disabled{opacity:.4;cursor:not-allowed}
+  .stepper .qty{min-width:24px;text-align:center;font-weight:700;font-size:.95rem}
+  .add-btn{
+    padding:9px 22px;border-radius:50px;border:none;cursor:pointer;
+    background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;font-weight:700;
+    font-family:inherit;font-size:.88rem;box-shadow:0 6px 14px rgba(255,126,95,.3);transition:all .2s;
+  }
+  .add-btn:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(255,126,95,.45)}
+  .add-btn:disabled{background:#ccc;cursor:not-allowed;box-shadow:none}
+
+  /* CART */
+  .cart{position:sticky;top:88px;background:#fff;border-radius:18px;border:1px solid var(--line);overflow:hidden}
+  .cart-head{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+  .cart-head h2{font-size:1.15rem;font-weight:800;display:flex;align-items:center;gap:10px}
+  .cart-head .count{background:var(--p1);color:#fff;font-size:.72rem;padding:3px 9px;border-radius:50px;font-weight:700}
+
+  .cart-body{padding:18px 22px;max-height:340px;overflow-y:auto}
+  .cart-item{display:flex;justify-content:space-between;align-items:center;padding:10px 0;font-size:.9rem;border-bottom:1px dashed var(--line)}
+  .cart-item:last-child{border-bottom:none}
+  .cart-item .nm{font-weight:600}
+  .cart-item .sub{font-size:.78rem;color:var(--muted);margin-top:2px}
+  .cart-item .pr{font-weight:700;color:var(--dark)}
+  .cart-empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:.9rem}
+  .cart-empty .em{font-size:3rem;display:block;margin-bottom:10px}
+
+  .cart-totals{padding:14px 22px;background:var(--soft);border-top:1px solid var(--line)}
+  .row{display:flex;justify-content:space-between;font-size:.92rem;margin-bottom:8px;color:var(--muted)}
+  .row.total{font-size:1.15rem;font-weight:800;color:var(--dark);margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+
+  /* RECOMMENDATIONS */
+  .recos{margin:24px 0;background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;display:none}
+  .recos.show{display:block;animation:slideIn .35s ease}
+  @keyframes slideIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .recos h2{font-size:1.1rem;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+  .recos h2 .ai{font-size:.65rem;padding:3px 9px;border-radius:50px;background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;font-weight:700;letter-spacing:.4px;text-transform:uppercase}
+  .recos .desc{font-size:.85rem;color:var(--muted);margin-bottom:14px}
+  .reco-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+  .reco-card{
+    border:1px solid var(--line);border-radius:14px;padding:10px;transition:all .25s;
+    display:flex;flex-direction:column;background:var(--soft);
+  }
+  .reco-card:hover{border-color:var(--p1);transform:translateY(-3px);box-shadow:0 10px 22px rgba(255,126,95,.18)}
+  .reco-img{height:90px;border-radius:10px;background:linear-gradient(135deg,#fff3ea,#ffe5d3);overflow:hidden;display:flex;align-items:center;justify-content:center;margin-bottom:8px}
+  .reco-img img{width:100%;height:100%;object-fit:cover}
+  .reco-img .ph{font-size:1.8rem}
+  .reco-card .nm{font-size:.88rem;font-weight:700;margin-bottom:2px}
+  .reco-card .pr{font-size:.85rem;color:var(--p1);font-weight:700}
+  .reco-card .match{font-size:.7rem;color:var(--muted);margin:4px 0 8px;display:flex;align-items:center;gap:4px}
+  .reco-card .match .bar{flex:1;height:4px;background:var(--line);border-radius:50px;overflow:hidden}
+  .reco-card .match .fill{height:100%;background:linear-gradient(90deg,var(--p1),var(--p2));border-radius:50px}
+  .reco-card .add-mini{
+    margin-top:auto;padding:6px 10px;border:none;border-radius:50px;cursor:pointer;font-family:inherit;
+    background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;font-size:.78rem;font-weight:700;
+  }
+  .reco-card .add-mini:hover{transform:translateY(-1px)}
+  .reco-card .add-mini:disabled{background:#ccc;cursor:not-allowed}
+
+  /* PAYMENT */
+  .pay-section{padding:14px 22px;border-top:1px solid var(--line)}
+  .pay-title{font-size:.84rem;font-weight:700;color:var(--muted);margin-bottom:10px;letter-spacing:.4px;text-transform:uppercase}
+  .pay-options{display:flex;flex-direction:column;gap:8px}
+  .pay-opt{cursor:pointer}
+  .pay-opt input{display:none}
+  .pay-card{
+    display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;
+    border:1.5px solid var(--line);background:#fff;transition:all .2s;
+  }
+  .pay-opt input:checked + .pay-card{border-color:var(--p1);background:#fff7ef;box-shadow:0 4px 12px rgba(255,126,95,.15)}
+  .pay-icon{
+    width:42px;height:42px;border-radius:10px;color:#fff;font-weight:800;
+    display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;
+  }
+  .pay-name{font-weight:700;font-size:.92rem}
+  .pay-meta{font-size:.76rem;color:var(--muted);margin-top:2px}
+
+  .delivery-toggle{padding:14px 22px;display:flex;gap:8px;border-top:1px solid var(--line)}
+  .delivery-toggle label{
+    flex:1;padding:10px;border:1.5px solid var(--line);border-radius:11px;text-align:center;cursor:pointer;
+    font-weight:600;font-size:.88rem;transition:all .2s;background:#fff;
+  }
+  .delivery-toggle label:has(input:checked){border-color:var(--p1);background:#fff7ef;color:var(--p1)}
+  .delivery-toggle input{display:none}
+
+  .checkout{
+    display:block;width:calc(100% - 44px);margin:14px 22px 22px;padding:14px;
+    border:none;border-radius:12px;cursor:pointer;font-family:inherit;
+    background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff;font-size:1rem;font-weight:700;
+    box-shadow:0 10px 24px rgba(255,126,95,.35);transition:all .25s;
+  }
+  .checkout:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 14px 30px rgba(255,126,95,.5)}
+  .checkout:disabled{background:#ccc;cursor:not-allowed;box-shadow:none}
+
+  /* TOAST */
+  .toast{
+    position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);
+    background:var(--dark);color:#fff;padding:14px 22px;border-radius:50px;
+    font-weight:600;box-shadow:0 12px 30px rgba(0,0,0,.25);transition:all .35s ease;
+    z-index:1000;font-size:.92rem;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .toast.ok{background:var(--ok)}
+  .toast.err{background:var(--err)}
+
+  /* TOPUP MODAL */
+  .modal{
+    display:none;position:fixed;inset:0;background:rgba(44,39,53,.55);backdrop-filter:blur(4px);
+    align-items:center;justify-content:center;z-index:200;padding:20px;
+  }
+  .modal.show{display:flex}
+  .modal-box{background:#fff;border-radius:18px;padding:30px;max-width:380px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.3)}
+  .modal-box h3{font-size:1.3rem;font-weight:800;margin-bottom:6px}
+  .modal-box p{color:var(--muted);font-size:.9rem;margin-bottom:18px}
+  .modal-box input{width:100%;padding:13px 16px;border:1.5px solid var(--line);border-radius:11px;font-size:.98rem;margin-bottom:14px;font-family:inherit}
+  .modal-box input:focus{outline:none;border-color:var(--p1)}
+  .modal-box .actions{display:flex;gap:10px}
+  .modal-box .actions button{flex:1;padding:12px;border:none;border-radius:11px;cursor:pointer;font-weight:700;font-family:inherit;font-size:.92rem}
+  .modal-box .cancel{background:var(--soft);color:var(--dark)}
+  .modal-box .confirm{background:linear-gradient(135deg,var(--p1),var(--p2));color:#fff}
+
+  @media(max-width:900px){
+    .layout{grid-template-columns:1fr}
+    .cart{position:static}
+    .banner h1{font-size:1.4rem}
+    .item{grid-template-columns:70px 1fr;gap:12px}
+    .item-img{width:70px;height:70px}
+    .item .stepper,.item .add-btn{grid-column:2;justify-self:start}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><a href="{{ url_for('home') }}">🍱 <span class="grad-text">Hungry Vhansa</span></a></div>
+  <div class="top-right">
+    <div class="user-chip">
+      <div class="avatar">{{ user.U_name[0]|upper }}</div>
+      <span class="name">{{ user.U_name }}</span>
+    </div>
+    <form action="{{ url_for('logout') }}" method="post" style="margin:0">
+      <button type="submit" class="logout-btn">Logout</button>
+    </form>
+  </div>
+</header>
+
+<div class="banner">
+  <div>
+    <h1>Welcome back, {{ user.U_name.split()[0] }}! 👋</h1>
+    <p>Browse the menu, add your favorites to the cart, and we'll handle the rest.</p>
+  </div>
+  <div class="banner-info">
+    <div>📍 Koteshwor-32</div>
+    <div>📞 9745614910</div>
+    <div>⚡ 30-min delivery</div>
+  </div>
+</div>
+
+<div class="layout">
+  <section class="menu-section">
+    <h2>🍽️ Our Menu <span class="pill">{{ products|length }} items</span></h2>
+
+    {% if products %}
+      {% for p in products %}
+      <div class="item" data-pid="{{ p.PID }}" data-name="{{ p.P_name }}" data-price="{{ p.P_price }}" data-stock="{{ p.P_quantity }}">
+        <div class="item-img">
+          {% if p.P_image %}
+            <img src="data:image/{{ p.P_imagetype }};base64,{{ p.P_image }}" alt="{{ p.P_name }}">
+          {% else %}<span class="ph">🍽️</span>{% endif %}
+        </div>
+        <div class="item-info">
+          <h3>{{ p.P_name }}
+            {% if p.P_quantity == 0 %}<span class="stock out">Sold out</span>
+            {% else %}<span class="stock">{{ p.P_quantity }} available</span>{% endif %}
+          </h3>
+          <div class="meta">Hungry Vhansa specialty</div>
+          <div class="price">₹{{ p.P_price }}</div>
+        </div>
+        {% if p.P_quantity > 0 %}
+          <button class="add-btn" onclick="addToCart({{ p.PID }})">+ Add</button>
+        {% else %}
+          <button class="add-btn" disabled>Sold out</button>
+        {% endif %}
+      </div>
+      {% endfor %}
+    {% else %}
+      <div style="text-align:center;color:var(--muted);padding:40px;font-style:italic">No menu items yet — please check back soon.</div>
+    {% endif %}
+  </section>
+
+  <div>
+    <section class="recos" id="recos">
+      <h2>✨ You might also like <span class="ai">AI Powered</span></h2>
+      <p class="desc" id="recosDesc">Smart picks based on what you just added.</p>
+      <div class="reco-grid" id="recoGrid"></div>
+    </section>
+    <aside class="cart" style="margin-top:0">
+    <div class="cart-head">
+      <h2>🛒 Your Cart <span class="count" id="cartCount">0</span></h2>
+    </div>
+    <div class="cart-body" id="cartBody">
+      <div class="cart-empty">
+        <span class="em">🛍️</span>
+        Your cart is empty.<br>
+        Add some delicious items from the menu!
+      </div>
+    </div>
+    <div class="cart-totals" id="cartTotals" style="display:none">
+      <div class="row"><span>Subtotal</span><span>₹<span id="subtotal">0</span></span></div>
+      <div class="row"><span>Delivery</span><span>₹<span id="delivery">0</span></span></div>
+      <div class="row total"><span>Total</span><span>₹<span id="total">0</span></span></div>
+    </div>
+    <div class="delivery-toggle">
+      <label><input type="radio" name="dtype" value="0" checked onchange="renderCart()">🥡 Take-out (Free)</label>
+      <label><input type="radio" name="dtype" value="1" onchange="renderCart()">🚚 Delivery (₹50)</label>
+    </div>
+
+    <div id="addressBox" style="display:none;padding:14px 22px;border-top:1px solid var(--line)">
+      <label style="display:block;font-size:.78rem;font-weight:700;color:var(--muted);margin-bottom:6px;letter-spacing:.4px;text-transform:uppercase">📍 Delivery Address</label>
+      <textarea id="address" rows="2" placeholder="House #, street, area, landmark — e.g. Koteshwor-32, near big bell chowk"
+        style="width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:11px;font-size:.92rem;background:#fff;font-family:inherit;resize:vertical"></textarea>
+      <button type="button" onclick="useGPS()" style="margin-top:8px;padding:7px 14px;border:none;border-radius:50px;background:var(--soft);color:var(--p1);font-weight:600;font-size:.8rem;cursor:pointer;font-family:inherit;border:1px solid var(--line)">
+        📡 Use my current location
+      </button>
+      <div id="gpsMsg" style="font-size:.76rem;color:var(--muted);margin-top:6px"></div>
+    </div>
+
+    <div class="pay-section">
+      <div class="pay-title">💳 Payment Method</div>
+      <div class="pay-options">
+        <label class="pay-opt">
+          <input type="radio" name="pay" value="cod" checked>
+          <div class="pay-card">
+            <div class="pay-icon" style="background:#0a8a3f">💵</div>
+            <div>
+              <div class="pay-name">Cash on Delivery</div>
+              <div class="pay-meta">Pay when your order arrives</div>
+            </div>
+          </div>
+        </label>
+        <label class="pay-opt">
+          <input type="radio" name="pay" value="esewa">
+          <div class="pay-card">
+            <div class="pay-icon" style="background:#60bb46">eS</div>
+            <div>
+              <div class="pay-name">eSewa</div>
+              <div class="pay-meta">Pay securely via eSewa wallet</div>
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <button class="checkout" id="checkoutBtn" onclick="placeOrder()" disabled>Place Order →</button>
+    </aside>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="modal" id="esewa">
+  <div class="modal-box">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <div style="width:42px;height:42px;border-radius:10px;background:#60bb46;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800">eS</div>
+      <h3 style="margin:0">eSewa Payment</h3>
+    </div>
+    <p>Pay <strong style="color:var(--p1)">₹<span id="esewaAmt">0</span></strong> securely via eSewa.</p>
+    <input type="text" id="esewaId" placeholder="eSewa ID (e.g. 98XXXXXXXX)">
+    <input type="password" id="esewaPin" placeholder="MPIN">
+    <div class="actions">
+      <button class="cancel" onclick="closeEsewa()">Cancel</button>
+      <button class="confirm" onclick="confirmEsewa()">Pay Now</button>
+    </div>
+    <p style="margin-top:12px;font-size:.78rem;color:var(--muted);text-align:center">🔒 Demo gateway — no real payment is processed.</p>
+  </div>
+</div>
+
+<script>
+  const SHOP_OWNER = {{ shop_owner|tojson }};
+  const cart = {}; // {pid: {name, price, qty, stock}}
+
+  function showToast(msg, type='') {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.className = 'toast show ' + type;
+    setTimeout(() => t.className = 'toast ' + type, 2800);
+  }
+
+  function addToCart(pid) {
+    const item = document.querySelector(`.item[data-pid="${pid}"]`);
+    const stock = parseInt(item.dataset.stock);
+    if (!cart[pid]) {
+      cart[pid] = {name: item.dataset.name, price: parseInt(item.dataset.price), qty: 0, stock};
+    }
+    if (cart[pid].qty >= stock) { showToast('No more stock available', 'err'); return; }
+    cart[pid].qty++;
+    renderCart();
+    loadRecommendations(pid, item.dataset.name);
+  }
+
+  function loadRecommendations(pid, name) {
+    fetch(`/recommend/${pid}`).then(r => r.json()).then(items => {
+      if (!items || items.length === 0) return;
+      // hide items already in cart
+      const filtered = items.filter(it => !cart[it.PID] || cart[it.PID].qty < it.stock);
+      if (filtered.length === 0) return;
+
+      document.getElementById('recosDesc').innerHTML =
+        `Because you added <strong>${name}</strong>, our AI thinks you'll love these too:`;
+      const grid = document.getElementById('recoGrid');
+      grid.innerHTML = filtered.map(it => `
+        <div class="reco-card">
+          <div class="reco-img">
+            ${it.image ? `<img src="data:image/${it.imagetype};base64,${it.image}">` : '<span class="ph">🍽️</span>'}
+          </div>
+          <div class="nm">${it.name}</div>
+          <div class="pr">₹${it.price}</div>
+          <div class="match">
+            <span>${it.similarity}% match</span>
+            <span class="bar"><span class="fill" style="width:${it.similarity}%"></span></span>
+          </div>
+          <button class="add-mini" ${it.stock===0?'disabled':''} onclick="addToCart(${it.PID})">
+            ${it.stock===0?'Sold out':'+ Add to cart'}
+          </button>
+        </div>`).join('');
+      document.getElementById('recos').classList.add('show');
+    }).catch(() => {});
+  }
+
+  function changeQty(pid, delta) {
+    if (!cart[pid]) return;
+    cart[pid].qty += delta;
+    if (cart[pid].qty <= 0) delete cart[pid];
+    else if (cart[pid].qty > cart[pid].stock) { cart[pid].qty = cart[pid].stock; showToast('Reached max stock', 'err'); }
+    renderCart();
+  }
+
+  function renderCart() {
+    const body = document.getElementById('cartBody');
+    const totals = document.getElementById('cartTotals');
+    const btn = document.getElementById('checkoutBtn');
+    const ids = Object.keys(cart);
+
+    document.getElementById('cartCount').textContent = ids.reduce((s,k)=>s+cart[k].qty, 0);
+
+    if (ids.length === 0) {
+      body.innerHTML = `<div class="cart-empty"><span class="em">🛍️</span>Your cart is empty.<br>Add some delicious items from the menu!</div>`;
+      totals.style.display = 'none';
+      btn.disabled = true;
+      return;
+    }
+
+    let subtotal = 0;
+    body.innerHTML = ids.map(pid => {
+      const it = cart[pid];
+      subtotal += it.price * it.qty;
+      return `
+        <div class="cart-item">
+          <div>
+            <div class="nm">${it.name}</div>
+            <div class="sub">₹${it.price} × ${it.qty}</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div class="stepper" style="padding:3px;gap:6px">
+              <button onclick="changeQty(${pid},-1)" style="width:26px;height:26px;font-size:.9rem">−</button>
+              <span class="qty" style="min-width:18px;font-size:.85rem">${it.qty}</span>
+              <button onclick="changeQty(${pid},1)" style="width:26px;height:26px;font-size:.9rem">+</button>
+            </div>
+            <span class="pr">₹${it.price * it.qty}</span>
+          </div>
+        </div>`;
+    }).join('');
+
+    const dtype = document.querySelector('input[name="dtype"]:checked').value;
+    const delivery = dtype === '1' ? 50 : 0;
+    document.getElementById('subtotal').textContent = subtotal;
+    document.getElementById('delivery').textContent = delivery;
+    document.getElementById('total').textContent = subtotal + delivery;
+    totals.style.display = 'block';
+    btn.disabled = false;
+    document.getElementById('addressBox').style.display = dtype === '1' ? 'block' : 'none';
+  }
+
+  function useGPS() {
+    const msg = document.getElementById('gpsMsg');
+    if (!navigator.geolocation) { msg.textContent = 'Geolocation not supported by your browser.'; return; }
+    msg.textContent = '📡 Locating you...';
+    navigator.geolocation.getCurrentPosition(pos => {
+      const lat = pos.coords.latitude.toFixed(5);
+      const lng = pos.coords.longitude.toFixed(5);
+      const ta = document.getElementById('address');
+      const coords = `(GPS: ${lat}, ${lng})`;
+      ta.value = ta.value ? ta.value.replace(/\(GPS:.*?\)/,'').trim() + ' ' + coords : coords;
+      msg.innerHTML = `✅ Captured. <a href="https://www.google.com/maps?q=${lat},${lng}" target="_blank" style="color:var(--p1)">View on map</a>`;
+    }, err => {
+      msg.textContent = '⚠️ Could not get location. Please type your address above.';
+    }, {timeout: 10000, enableHighAccuracy: true});
+  }
+
+  function submitOrder(payment) {
+    const ids = Object.keys(cart);
+    const dtype = document.querySelector('input[name="dtype"]:checked').value;
+    const address = (document.getElementById('address').value || '').trim();
+    const payload = {
+      PIDs: ids.map(Number),
+      Quantities: ids.map(k => cart[k].qty),
+      S_owner: SHOP_OWNER,
+      Type: dtype,
+      PaymentMethod: payment,
+      Address: dtype === '1' ? address : '',
+    };
+    const btn = document.getElementById('checkoutBtn');
+    btn.disabled = true; btn.textContent = 'Placing order...';
+    fetch('/order_made', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    }).then(r=>r.json()).then(data => {
+      btn.textContent = 'Place Order →';
+      if (data.message && data.message.toLowerCase().includes('fail')) {
+        showToast(data.message, 'err'); btn.disabled = false;
+      } else {
+        const note = payment === 'esewa' ? '✅ Paid via eSewa — Order placed!' : '🎉 Order placed! Pay on delivery.';
+        showToast(note, 'ok');
+        for (const k in cart) delete cart[k];
+        renderCart();
+        setTimeout(() => location.reload(), 1800);
+      }
+    }).catch(() => { showToast('Network error, please retry', 'err'); btn.disabled = false; btn.textContent = 'Place Order →'; });
+  }
+
+  function placeOrder() {
+    if (Object.keys(cart).length === 0) return;
+    const dtype = document.querySelector('input[name="dtype"]:checked').value;
+    if (dtype === '1') {
+      const address = (document.getElementById('address').value || '').trim();
+      if (address.length < 6) {
+        showToast('Please enter your delivery address', 'err');
+        document.getElementById('address').focus();
+        return;
+      }
+    }
+    const pay = document.querySelector('input[name="pay"]:checked').value;
+    if (pay === 'esewa') {
+      document.getElementById('esewaAmt').textContent = document.getElementById('total').textContent;
+      document.getElementById('esewa').classList.add('show');
+    } else {
+      submitOrder('cod');
+    }
+  }
+
+  function closeEsewa() {
+    document.getElementById('esewa').classList.remove('show');
+    document.getElementById('esewaId').value = '';
+    document.getElementById('esewaPin').value = '';
+  }
+
+  function confirmEsewa() {
+    const id = document.getElementById('esewaId').value.trim();
+    const pin = document.getElementById('esewaPin').value.trim();
+    if (id.length < 10 || pin.length < 4) { showToast('Enter a valid eSewa ID and MPIN', 'err'); return; }
+    closeEsewa();
+    showToast('Processing eSewa payment...', '');
+    setTimeout(() => submitOrder('esewa'), 900);
+  }
+</script>
+
+</body>
+</html>
